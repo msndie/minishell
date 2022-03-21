@@ -91,7 +91,7 @@ void	init_cmd(t_stct *data, char *str)
 	char	**str_array;
 	int		i;
 
-	str_array = ft_split(str, '|');
+	str_array = split_with_quotes(str, '|');
 	if (!str_array)
 		return ;
 	i = 0;

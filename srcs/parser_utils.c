@@ -12,23 +12,23 @@
 
 #include "../includes/minishell.h"
 
-int	check_pipe(char *str)
+int	check_pipe(char *str, int *quotes, int word, int i)
 {
-	int	i;
 	int	count_pipe;
-	int	word;
 
-	i = -1;
-	word = 0;
 	count_pipe = 0;
 	while (str[++i])
 	{
-		if (ft_isalnum(str[i]))
+		if (isalpha(str[i]))
 			word++;
-		if (str[i] == '|' && word == 0)
-			return (-1);
-		if (str[i] == '|')
+		if (str[i] == 34)
+			quotes[0]++;
+		if (str[i] == 39)
+			quotes[1]++;
+		if (str[i] == '|' && amount_quotes(quotes) == 0)
 		{
+			if (word == 0)
+				return (-1);
 			count_pipe++;
 			i++;
 			while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
@@ -117,8 +117,7 @@ char	**arr_without_quotes(t_stct *data, char *str)
 	int		i;
 	char	**str_array;
 
-	first = what_is_first(str);
-	str_array = split_with_quotes(str, ' ', first);
+	str_array = split_with_quotes(str, ' ');
 	i = 0;
 	while (str_array && str_array[i])
 	{

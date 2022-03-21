@@ -15,8 +15,11 @@
 int	parser(t_stct *data, char *str)
 {
 	int	count_pipe;
+	int	quotes[2];
 
-	count_pipe = check_pipe(str);
+	quotes[0] = 0;
+	quotes[1] = 0;
+	count_pipe = check_pipe(str, quotes, 0, -1);
 	if (count_pipe == -1)
 	{
 		data->exit_status = 1;

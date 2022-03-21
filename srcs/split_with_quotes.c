@@ -12,7 +12,16 @@
 
 #include "../includes/minishell.h"
 
-int	ft_len(char *s, char c, char quote, int count_quote)
+int	amount_quotes(const int *quotes)
+{
+	if (quotes[0] % 2 != 0)
+		return (1);
+	if (quotes[1] % 2 != 0)
+		return (1);
+	return (0);
+}
+
+int	ft_len(const char *s, char c, int *quote)
 {
 	int	i;
 	int	count;
@@ -28,11 +37,11 @@ int	ft_len(char *s, char c, char quote, int count_quote)
 			count++;
 			while (s[i])
 			{
-				if (s[i] == quote && s[i - 1] != 92)
-					count_quote++;
-				if (count_quote == 2)
-					count_quote = 0;
-				if (s[i] == c && count_quote != 1)
+				if (s[i] == 34 && s[i - 1] != 92)
+					quote[0]++;
+				if (s[i] == 39 && s[i - 1] != 92)
+					quote[1]++;
+				if (s[i] == c && amount_quotes(quote) == 0)
 					break ;
 				i++;
 			}
@@ -52,21 +61,19 @@ char	**free_array(char **str)
 	return (NULL);
 }
 
-char	**fill_str(char **str_array, char *str, char border, char quote)
+char	**fill_str(char **str_array, char *str, char border, int *quote)
 {
 	int	i[2];
-	int	count;
 
 	i[0] = 0;
 	i[1] = 0;
-	count = 0;
 	while (str[i[1]])
 	{
-		if (str[i[1]] == quote && str[i[1] - 1] != 92)
-			count++;
-		if (count == 2)
-			count = 0;
-		if (str[i[1]] == border && count != 1)
+		if (str[i[1]] == 34 && str[i[1] - 1] != 92)
+			quote[0]++;
+		if (str[i[1]] == 39 && str[i[1] - 1] != 92)
+			quote[1]++;
+		if (str[i[1]] == border && amount_quotes(quote) == 0)
 		{
 			while (str[i[1]] && str[i[1]] == border)
 				i[1] += 1;
@@ -81,22 +88,25 @@ char	**fill_str(char **str_array, char *str, char border, char quote)
 	return (str_array);
 }
 
-char	**split_with_quotes(char *str, char border, char quote)
+char	**split_with_quotes(char *str, char border)
 {
 	char	**str_array;
 	int		count;
+	int		count_quote[2];
 	int		i;
 
 	if (!str)
 		return (NULL);
-	count = ft_len(str, border, quote, 0);
+	count_quote[0] = 0;
+	count_quote[1] = 0;
+	count = ft_len(str, border, count_quote);
 	str_array = (char **)malloc(sizeof(char *) * (count + 1));
 	if (!str_array)
 		return (NULL);
 	i = 0;
 	while (i < count + 1)
 		str_array[i++] = NULL;
-	str_array = fill_str(str_array, str, border, quote);
+	str_array = fill_str(str_array, str, border, count_quote);
 	if (!str_array)
 		return (NULL);
 	return (str_array);

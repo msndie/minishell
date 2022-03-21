@@ -98,14 +98,15 @@ void		init_cmd(t_stct *data, char *str);
 /*PARS_FUNCTIONS*/
 int			parser(t_stct *data, char *str);
 char		**parse_string(t_stct *data, char *str);
-char		**split_with_quotes(char *str, char border, char quote);
+char		**split_with_quotes(char *str, char border);
 char		**str_array_dup(char **str, int start, int finish);
 int			count_str(char **str);
 int			what_is_first(char *str);
 char		**join_str(char **str_arr, char *str);
 char		*last_word(char *str);
-int			check_pipe(char *str);
+int			check_pipe(char *str, int *quotes, int word, int i);
 int			check_quotes(char *str, int count1, int count2, int first_open);
+int			amount_quotes(const int *quotes);
 char		*find_path(char *cmd, t_stct *data, int i);
 char		*ft_charjoin(char *s1, char symbol);
 int			what_is_first(char *str);
