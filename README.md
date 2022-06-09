@@ -11,3 +11,4 @@
 - exit
 
 Проект выполнен совместно с https://github.com/vkleshnin , который отвечал за парсинг команд.
+![minishell](https://user-images.githubusercontent.com/90697062/172835950-70b61825-3a86-4694-97a8-4640ea00eec0.gif)
